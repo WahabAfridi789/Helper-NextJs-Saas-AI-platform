@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { BsChatSquareDots } from "react-icons/bs";
 import { useState } from "react";
 
+import { Empty } from "@/components/Empty";
+import { Loader } from "@/components/Loader";
+
 const ConversationPage = () => {
   const router = useRouter();
 
@@ -104,6 +107,16 @@ const ConversationPage = () => {
         </div>
 
         <div className="space-y-4 mt-4">
+          {isLoading && (
+            <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+              <Loader />
+            </div>
+          )}
+
+          {messages.length === 0 && !isLoading && (
+            <Empty label="No Conversation started yet" />
+          )}
+
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message, index) => (
               <div
