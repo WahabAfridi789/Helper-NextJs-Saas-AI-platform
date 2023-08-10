@@ -23,6 +23,9 @@ import { useState } from "react";
 
 import { Empty } from "@/components/Empty";
 import { Loader } from "@/components/Loader";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/UserAvatar";
+import { BotAvatar } from "@/components/BotAvatar";
 
 const ConversationPage = () => {
   const router = useRouter();
@@ -121,19 +124,23 @@ const ConversationPage = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-x-2 ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={cn(
+                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  message.role === "user"
+                    ? "bg-white border border-black/10 "
+                    : "bg-muted"
+                )}
               >
-                <div
-                  className={`p-2 rounded-lg ${
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                <p
+                  className={cn(
+                    "text-sm",
                     message.role === "user"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-900"
-                  }`}
-                >
-                  {message.content}
-                </div>
+                      ? "text-black"
+                      : "text-muted-foreground"
+                  )}
+                ></p>
+                {message.content}
               </div>
             ))}
           </div>
