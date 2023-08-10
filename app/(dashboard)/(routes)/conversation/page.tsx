@@ -1,13 +1,17 @@
 "use client";
 
 import * as z from "zod";
+import axios from "axios";
+
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { Heading } from "@/components/Heading";
 
 import { FormSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from "react-hook-form";
+import { ChatCompletionRequestMessage } from "openai";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
@@ -15,8 +19,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { BsChatSquareDots } from "react-icons/bs";
+import { useState } from "react";
 
 const ConversationPage = () => {
+  const router = useRouter();
+
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -27,7 +35,29 @@ const ConversationPage = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+    try {
+      const userMessage: ChatCompletionRequestMessage = {
+        role: "user",
+        content: data.prompt,
+      };
+
+      const newMessages = [...messages, userMessage];
+
+      const response = await axios.post("/api/conversation", {
+        messages: newMessages,
+      });
+
+      setMessages((current) => [...current, userMessage, response.data]);
+
+      form.reset();
+
+      console.log("s");
+    } catch (error) {
+      //OPEN PRO MODEL
+      console.log(error);
+    } finally {
+      router.refresh();
+    }
   };
 
   return (
@@ -73,7 +103,28 @@ const ConversationPage = () => {
           </Form>
         </div>
 
-        <div className="space-y-4 mt-4">Message Content</div>
+        <div className="space-y-4 mt-4">
+          <div className="flex flex-col-reverse gap-y-4">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex gap-x-2 ${
+                  message.role === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                <div
+                  className={`p-2 rounded-lg ${
+                    message.role === "user"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-100 text-gray-900"
+                  }`}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
