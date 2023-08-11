@@ -24,7 +24,10 @@ import { Music } from "lucide-react";
 import { Empty } from "@/components/Empty";
 import { Loader } from "@/components/Loader";
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const MusicPage = () => {
+  const proModal = useProModal();
   const router = useRouter();
 
   const [music, setMusic] = useState<string>();
@@ -44,8 +47,11 @@ const MusicPage = () => {
       const response = await axios.post("/api/music", data);
       setMusic(response.data.audio);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       //OPEN PRO MODEL
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();

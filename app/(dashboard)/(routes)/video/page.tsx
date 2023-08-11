@@ -23,7 +23,10 @@ import { Video } from "lucide-react";
 import { Empty } from "@/components/Empty";
 import { Loader } from "@/components/Loader";
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const VideoPage = () => {
+  const proModal = useProModal();
   const router = useRouter();
 
   const [video, setVideo] = useState<string>();
@@ -43,8 +46,11 @@ const VideoPage = () => {
       const response = await axios.post("/api/video", data);
       setVideo(response.data[0]);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       //OPEN PRO MODEL
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();

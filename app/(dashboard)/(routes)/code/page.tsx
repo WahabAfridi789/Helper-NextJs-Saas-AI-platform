@@ -30,7 +30,10 @@ import { BotAvatar } from "@/components/BotAvatar";
 import { Code } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
+import { useProModal } from "@/hooks/use-pro-modal";
+
 const CodePage = () => {
+  const proModal = useProModal();
   const router = useRouter();
 
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -61,8 +64,11 @@ const CodePage = () => {
       form.reset();
 
       console.log("s");
-    } catch (error) {
+    } catch (error: any) {
       //OPEN PRO MODEL
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();
