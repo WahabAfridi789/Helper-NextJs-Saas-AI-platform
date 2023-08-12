@@ -80,7 +80,7 @@ const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
             <Image fill alt="logo" src="/logo.png" />
           </div>
           <h1 className={cn("text-2xl font-bold", montserrat.className)}>
-            Helper
+            Helpon
           </h1>
         </Link>
         <div className="space-y-1">
