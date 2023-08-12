@@ -75,7 +75,7 @@ const ConversationPage = () => {
     <div>
       <Heading
         title="Conversation"
-        description="Generate a conversation between two people."
+        description="Generate anything based on a text"
         icon={BsChatSquareDots}
         iconColor="text-gray-500"
         bgColor="bg-gray-50"
