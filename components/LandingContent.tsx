@@ -4,30 +4,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Joel",
-    avatar: "J",
+    name: "Abdul Wahab",
+    avatar: "A",
     title: "Software Engineer",
     description: "This is the best application I've ever used!",
   },
   {
-    name: "Antonio",
+    name: "Amna Khan",
     avatar: "A",
-    title: "Designer",
-    description: "I use this daily for generating new photos!",
+    title: "Web Developer",
+    description: "I use this daily for generating new code snippets!",
   },
   {
-    name: "Mark",
-    avatar: "M",
-    title: "CEO",
-    description:
-      "This app has changed my life, cannot imagine working without it!",
+    name: "Umar Asrar",
+    avatar: "U",
+    title: "Flutter Developer",
+    description: "I mostly use this for generating Flutter code, it's so easy!",
   },
   {
-    name: "Mary",
-    avatar: "M",
-    title: "CFO",
+    name: "Abdul Rafay",
+    avatar: "R",
+    title: "UI/UX Designer",
     description:
-      "The best in class, definitely worth the premium subscription!",
+      "I use it for generating new UI designs, it worths every penny!",
   },
 ];
 
