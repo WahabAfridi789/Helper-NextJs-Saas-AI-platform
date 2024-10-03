@@ -67,7 +67,14 @@ const VideoPage = () => {
         bgColor="bg-orange-700/10"
       />
 
-      <div className="px-4 lg:px-8">
+      {/* in development */}
+      <div className="px-4 lg:px-8 text-center">
+        <p className="text-muted-foreground mt-4">
+          This feature is currently in development and will be released soon. Stay tuned for exciting video generation capabilities!
+        </p>
+      </div>
+
+      {/* <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
             <form
@@ -118,7 +125,7 @@ const VideoPage = () => {
             </video>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,16 +1,14 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 import { NextResponse } from "next/server";
 
 import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
   console.log("Conversation Request: ", req);
@@ -24,7 +22,7 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!configuration.apiKey) {
+    if (!openai.apiKey) {
       return new NextResponse("OpenAi API key Not configured", { status: 500 });
     }
 
@@ -48,7 +46,7 @@ export async function POST(req: Request) {
         { status: 403 }
       );
     } else {
-      const response = await openai.createImage({
+      const response = await openai.images.generate({
         prompt,
         n: parseInt(amount, 10),
         size: resolution,
@@ -56,7 +54,7 @@ export async function POST(req: Request) {
 
       await increaseApiLimit();
 
-      return NextResponse.json(response.data.data);
+      return NextResponse.json(response.data);
     }
   } catch (error) {
     console.log("Image Error: ", error);

@@ -1,16 +1,12 @@
-import { Configuration, OpenAIApi } from "openai";
-
-import { auth } from "@clerk/nextjs";
-
+import OpenAI from "openai";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
+import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
   console.log("Conversation Request: ", req);
@@ -24,7 +20,7 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!configuration.apiKey) {
+    if (!openai.apiKey) {
       return new NextResponse("OpenAi API key Not configured", { status: 500 });
     }
 
@@ -40,13 +36,13 @@ export async function POST(req: Request) {
         { status: 403 }
       );
     } else {
-      const response = await openai.createChatCompletion({
+      const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages,
       });
 
       await increaseApiLimit();
-      return NextResponse.json(response.data.choices[0].message);
+      return NextResponse.json(response.choices[0].message);
     }
   } catch (error) {
     console.log("Conversation Error: ", error);

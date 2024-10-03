@@ -11,7 +11,7 @@ import { Heading } from "@/components/Heading";
 import { FormSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ChatCompletionRequestMessage } from "openai";
+
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
@@ -68,7 +68,15 @@ const MusicPage = () => {
         bgColor="bg-emerald-500/10"
       />
 
-      <div className="px-4 lg:px-8">
+      {/* in development */}
+      <div className="px-4 lg:px-8 text-center">
+        <p className="text-muted-foreground mt-4">
+          This feature is currently in development and will be released soon. Stay tuned for exciting music generation capabilities!
+        </p>
+      </div>
+
+
+      {/* <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
             <form
@@ -116,7 +124,7 @@ const MusicPage = () => {
             </audio>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

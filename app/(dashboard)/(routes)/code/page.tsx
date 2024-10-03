@@ -11,14 +11,14 @@ import { Heading } from "@/components/Heading";
 import { FormSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ChatCompletionRequestMessage } from "openai";
+
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 
-import { BsChatSquareDots } from "react-icons/bs";
+
 import { useState } from "react";
 
 import { Empty } from "@/components/Empty";
@@ -32,11 +32,17 @@ import ReactMarkdown from "react-markdown";
 
 import { useProModal } from "@/hooks/use-pro-modal";
 
+type Message = {
+  role: "user" | "ai";
+  content: string;
+};
+
+
 const CodePage = () => {
   const proModal = useProModal();
   const router = useRouter();
 
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -48,10 +54,14 @@ const CodePage = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = {
+
+      const userMessage = {
         role: "user",
         content: data.prompt,
       };
+
+
+
 
       const newMessages = [...messages, userMessage];
 

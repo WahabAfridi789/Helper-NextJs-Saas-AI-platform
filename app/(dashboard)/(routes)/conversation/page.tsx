@@ -11,7 +11,7 @@ import { Heading } from "@/components/Heading";
 import { FormSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ChatCompletionRequestMessage } from "openai";
+
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,11 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { BotAvatar } from "@/components/BotAvatar";
 import { useProModal } from "@/hooks/use-pro-modal";
+
+type ChatCompletionRequestMessage = {
+  role: "user" | "system" | "assistant";
+  content: string;
+};
 
 const ConversationPage = () => {
   const proModal = useProModal();

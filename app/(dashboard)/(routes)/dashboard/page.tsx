@@ -1,8 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-
 import { BsChatSquareDots } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
 import { BsImageFill } from "react-icons/bs";
@@ -52,7 +49,7 @@ const tools = [
 ];
 
 export default function Dashboard() {
-  const router = useRouter();
+
   return (
     <div>
       <div className="mb-8 space-y-4">
@@ -72,25 +69,27 @@ export default function Dashboard() {
 
       <div className="px-4 md:px-20 lg:px-32 space-y-4">
         {tools.map((tool) => (
-          <Card
-            onClick={() => {
-              router.push(tool.href);
-            }}
-            key={tool.label}
-            className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
-          >
-            <div className="flex items-center gap-x-4">
-              <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-                <tool.icon className={cn("w-8 h-8", tool.color)} />
+
+          <Link href={tool.href} key={tool.label}>
+
+            <Card
+
+              key={tool.label}
+              className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
+            >
+              <div className="flex items-center gap-x-4">
+                <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
+                  <tool.icon className={cn("w-8 h-8", tool.color)} />
+                </div>
+
+                <div className="font-semibold">{tool.label}</div>
               </div>
 
-              <div className="font-semibold">{tool.label}</div>
-            </div>
-
-            <div className="flex items-center gap-x-4">
-              <BsArrowRightShort className="w-6 h-6 " />
-            </div>
-          </Card>
+              <div className="flex items-center gap-x-4">
+                <BsArrowRightShort className="w-6 h-6 " />
+              </div>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
